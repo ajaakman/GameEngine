@@ -1,22 +1,30 @@
 #include <iostream>
 
 #include "window.h"
+#include "src/maths/maths.h"
 
 int main()
 {
-	engine::graphics::Window window("Main Window ", 960, 540);
+	using namespace engine;
+	using namespace graphics;
+	using namespace maths;
+	Window window("Main Window ", 960, 540);
 	glClearColor(0.2f, 0.3f, 0.8f, 1.0f);
 
 	GLuint vao;
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 
+	vec4 a(1.0f, 2.0f, 3.5f, 0.0f);
+	vec4 b(1.0f, 2.0f, 5.2f, 1.0f);
+
+	a /= b;
+
+
 	while (!window.closed())
 	{
 		window.clear();
-		double x, y;
-		window.getMousePosition(x, y);
-		std::cout << x << " " << y << std::endl;
+		std::cout << (a==b) << std::endl;
 
 
 		glBegin(GL_TRIANGLES);
