@@ -6,7 +6,14 @@ namespace engine {	namespace maths {
 
 	struct mat4
 	{
-		float elements[4 * 4];
+		union 
+		{
+			float elements[4 * 4];
+			struct 
+			{
+			vec4 columns[4];
+			};
+		};
 
 		mat4();
 		mat4(float diagonal);

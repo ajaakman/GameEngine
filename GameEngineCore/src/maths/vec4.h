@@ -6,7 +6,7 @@ namespace engine { namespace maths {
 	struct vec4 
 	{
 		float x, y, z, w;
-
+				
 		vec4();
 		vec4(const float& x, const float& y, const float& z, const float& w);
 		
