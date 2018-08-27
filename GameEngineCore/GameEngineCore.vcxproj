@@ -83,7 +83,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)GameEngineCore\src\graphics;$(SolutionDir)Dependencies\GLFW\Include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>GLEW_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib</AdditionalDependencies>
@@ -142,6 +142,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\graphics\shader.cpp" />
     <ClCompile Include="src\graphics\window.cpp" />
     <ClCompile Include="src\maths\mat4.cpp" />
     <ClCompile Include="src\maths\vec2.cpp" />
@@ -149,6 +150,7 @@
     <ClCompile Include="src\maths\vec4.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\graphics\shader.h" />
     <ClInclude Include="src\graphics\window.h" />
     <ClInclude Include="src\maths\mat4.h" />
     <ClInclude Include="src\maths\maths.h" />
@@ -156,6 +158,11 @@
     <ClInclude Include="src\maths\vec2.h" />
     <ClInclude Include="src\maths\vec3.h" />
     <ClInclude Include="src\maths\vec4.h" />
+    <ClInclude Include="src\utils\fileutils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\shaders\basic.frag" />
+    <None Include="src\shaders\basic.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
