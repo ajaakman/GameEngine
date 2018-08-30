@@ -49,6 +49,7 @@ namespace engine { namespace graphics {
 		glfwSetKeyCallback(m_Window, key_callback);
 		glfwSetMouseButtonCallback(m_Window, mouse_button_callback);
 		glfwSetCursorPosCallback(m_Window, cursor_position_callback);
+		glfwSwapInterval(0);
 
 		if (glewInit() != GLEW_OK) // Must run after glfwMakecontextCurrent();
 		{

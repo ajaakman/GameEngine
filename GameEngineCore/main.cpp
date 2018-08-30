@@ -14,6 +14,7 @@
 
 #include "src/graphics/static_sprite.h"
 #include "src/graphics/sprite.h"
+#include "src/utils/timer.h"
 
 #include <time.h>
 
@@ -69,8 +70,15 @@ int main()
 	shader.setUniform2f("light_pos", vec2(4.0f, 1.5f));
 	shader.setUniform4f("colour", vec4(0.2f, 0.3f, 0.8f, 1.0f));
 
+	Timer time;
+	float timer = 0;
+	unsigned int frames = 0;
 	while (!window.closed())
 	{
+		mat4 mat = mat4::translation(vec3(5, 5, 5));
+		mat = mat * mat4::rotation(time.elapsed() * 50.0f, vec3(0, 0, 1));
+		mat = mat * mat4::translation(vec3(-5, -5, -5));
+		shader.setUniformMat4("ml_matrix", mat);
 		window.clear();
 		double x, y;
 		window.getMousePosition(x, y);
@@ -86,8 +94,14 @@ int main()
 		renderer.end();
 #endif
 		renderer.flush();
-
 		window.update();
+		++frames;
+		if (time.elapsed() - timer > 1.0f)
+		{
+			timer += 1.0f;
+			printf("%d fps\n", frames);
+			frames = 0;
+		}
 	}
 
 	return 0;
