@@ -61,26 +61,26 @@ namespace engine {	namespace graphics {
 		const maths::vec2& size = renderable->getSize();
 		const maths::vec4& color = renderable->getColor();
 
-		int r = color.x * 255.0f;
-		int g = color.y * 255.0f;
-		int b = color.z * 255.0f;
-		int a = color.w * 255.0f;
+		int r = (int)(color.x * 255.0f);
+		int g = (int)(color.y * 255.0f);
+		int b = (int)(color.z * 255.0f);
+		int a = (int)(color.w * 255.0f);
 
 		unsigned int c = a << 24 | b << 16 | g << 8 | r;
 
-		m_Buffer->vertex = position;
+		m_Buffer->vertex = *m_TransformationBack * position;
 		m_Buffer->color = c;
 		++m_Buffer;
 
-		m_Buffer->vertex = maths::vec3(position.x, position.y + size.y, position.z);
+		m_Buffer->vertex = *m_TransformationBack * maths::vec3(position.x, position.y + size.y, position.z);
 		m_Buffer->color = c;
 		++m_Buffer;
 
-		m_Buffer->vertex = maths::vec3(position.x + size.x, position.y + size.y, position.z);
+		m_Buffer->vertex = *m_TransformationBack * maths::vec3(position.x + size.x, position.y + size.y, position.z);
 		m_Buffer->color = c;
 		++m_Buffer;
 
-		m_Buffer->vertex = maths::vec3(position.x + size.x, position.y, position.z);
+		m_Buffer->vertex = *m_TransformationBack * maths::vec3(position.x + size.x, position.y, position.z);
 		m_Buffer->color = c;
 		++m_Buffer;	
 
