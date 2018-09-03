@@ -1,7 +1,7 @@
 #include "BatchRenderer2D.h"
 
-namespace engine {	namespace graphics {
-		
+namespace engine { namespace graphics {
+
 	BatchRenderer2D::BatchRenderer2D()
 	{
 		init();
@@ -21,10 +21,15 @@ namespace engine {	namespace graphics {
 		glBindVertexArray(m_VAO);
 		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 		glBufferData(GL_ARRAY_BUFFER, RENDERER_BUFFER_SIZE, NULL, GL_DYNAMIC_DRAW);
+
 		glEnableVertexAttribArray(SHADER_VERTEX_INDEX);
+		glEnableVertexAttribArray(SHADER_UV_INDEX);
 		glEnableVertexAttribArray(SHADER_COLOR_INDEX);
-		glVertexAttribPointer(SHADER_VERTEX_INDEX, 3, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*) 0);
+
+		glVertexAttribPointer(SHADER_VERTEX_INDEX, 3, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)0);
+		glVertexAttribPointer(SHADER_UV_INDEX, 2, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, VertexData::uv)));
 		glVertexAttribPointer(SHADER_COLOR_INDEX, 4, GL_UNSIGNED_BYTE, GL_TRUE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, VertexData::color)));
+
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		GLuint* indices = new GLuint[RENDERER_INDICES_SIZE];
@@ -54,35 +59,39 @@ namespace engine {	namespace graphics {
 		m_Buffer = (VertexData*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
 	}
 
-
-	void BatchRenderer2D::submit(const Renderable2D * renderable)
+	void BatchRenderer2D::submit(const Renderable2D* renderable)
 	{
 		const maths::vec3& position = renderable->getPosition();
 		const maths::vec2& size = renderable->getSize();
 		const maths::vec4& color = renderable->getColor();
-
-		int r = (int)(color.x * 255.0f);
-		int g = (int)(color.y * 255.0f);
-		int b = (int)(color.z * 255.0f);
-		int a = (int)(color.w * 255.0f);
+		const std::vector<maths::vec2>& uv = renderable->getUV();
+		
+		int r = color.x * 255.0f;
+		int g = color.y * 255.0f;
+		int b = color.z * 255.0f;
+		int a = color.w * 255.0f;
 
 		unsigned int c = a << 24 | b << 16 | g << 8 | r;
 
 		m_Buffer->vertex = *m_TransformationBack * position;
+		m_Buffer->uv = uv[0];
 		m_Buffer->color = c;
-		++m_Buffer;
+		m_Buffer++;
 
 		m_Buffer->vertex = *m_TransformationBack * maths::vec3(position.x, position.y + size.y, position.z);
+		m_Buffer->uv = uv[1];
 		m_Buffer->color = c;
-		++m_Buffer;
+		m_Buffer++;
 
 		m_Buffer->vertex = *m_TransformationBack * maths::vec3(position.x + size.x, position.y + size.y, position.z);
+		m_Buffer->uv = uv[2];
 		m_Buffer->color = c;
-		++m_Buffer;
+		m_Buffer++;
 
 		m_Buffer->vertex = *m_TransformationBack * maths::vec3(position.x + size.x, position.y, position.z);
+		m_Buffer->uv = uv[3];
 		m_Buffer->color = c;
-		++m_Buffer;	
+		m_Buffer++;
 
 		m_IndexCount += 6;
 	}
