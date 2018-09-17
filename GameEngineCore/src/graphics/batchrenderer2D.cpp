@@ -86,7 +86,7 @@ namespace engine { namespace graphics {
 			}
 			if (!found)
 			{
-				if (m_TextureSlots.size() >= 32)
+				if (m_TextureSlots.size() >= RENDERER_MAX_TEXTURES)
 				{
 					end();
 					flush();
@@ -156,6 +156,7 @@ namespace engine { namespace graphics {
 		glBindVertexArray(0);
 
 		m_IndexCount = 0;
+		m_TextureSlots.clear();
 	}
 
 } }

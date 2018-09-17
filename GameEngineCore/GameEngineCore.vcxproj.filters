@@ -45,16 +45,10 @@
     <ClCompile Include="src\graphics\buffers\vertexarray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphics\simple2drenderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\graphics\batchrenderer2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\graphics\sprite.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\graphics\static_sprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\graphics\layers\layer.cpp">
@@ -67,6 +61,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\graphics\texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="examples\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -110,9 +107,6 @@
     <ClInclude Include="src\graphics\renderable2d.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\graphics\simple2drenderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\graphics\renderer2d.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -120,9 +114,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\graphics\sprite.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\graphics\static_sprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\utils\timer.h">
@@ -141,6 +132,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\utils\imageload.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

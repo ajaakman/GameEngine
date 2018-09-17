@@ -1,3 +1,5 @@
+#if 0
+
 #include <iostream>
 
 #include "window.h"
@@ -10,10 +12,8 @@
 #include "src/graphics//buffers/vertexarray.h"
 
 #include "src/graphics/renderer2d.h"
-#include "src/graphics/simple2drenderer.h"
 #include "src/graphics/batchrenderer2D.h"
 
-#include "src/graphics/static_sprite.h"
 #include "src/graphics/sprite.h"
 
 #include "src/graphics/layers/tilelayer.h"
@@ -63,14 +63,9 @@ int main()
 				layer.add(new Sprite(x, y, 0.9f, 0.9f, textures[rand() % 3]));
 		}
 	}
-
-	GLint texIDs[] =
-	{
-		0, 1, 2, 3, 4, 5, 6, 7, 8, 9
-	};
+		
 
 	shader.enable();
-	shader.setUniform1iv("textures", texIDs, 10);
 	shader.setUniformMat4("pr_matrix", maths::mat4::orthographic(-16.f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
 
 
@@ -150,4 +145,5 @@ int main()
 
 	return 0;
 }
+#endif
 #endif
