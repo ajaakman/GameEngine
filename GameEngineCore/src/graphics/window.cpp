@@ -11,6 +11,10 @@ namespace engine { namespace graphics {
 		if (!init())
 			glfwTerminate();
 
+#ifdef ENGINE_EMSCRIPTEN
+		FreeImage_Initialise();
+#endif
+
 		for (int i = 0; i < MAX_KEYS; i++)
 		{
 			m_Keys[i] = false;
@@ -51,13 +55,13 @@ namespace engine { namespace graphics {
 		glfwSetMouseButtonCallback(m_Window, mouse_button_callback);
 		glfwSetCursorPosCallback(m_Window, cursor_position_callback);
 		glfwSwapInterval(0.0);
-
+#ifndef ENGINE_EMSCRIPTEN
 		if (glewInit() != GLEW_OK)
 		{
 			std::cout << "Could not initialize GLEW!" << std::endl;
 			return false;
 		}
-
+#endif
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 

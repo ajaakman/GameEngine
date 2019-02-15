@@ -1,5 +1,165 @@
 #if 0
 
+#include "src/Engine.h"
+
+using namespace engine;
+using namespace graphics;
+
+#ifdef ENGINE_EMSCRIPTEN
+#include <emscripten/emscripten.h>
+#endif
+
+#ifdef ENGINE_EMSCRIPTEN
+static void dispatch_main(void* fp)
+{
+	std::function<void()>* func = (std::function<void()>*)fp;
+	(*func)();
+}
+#endif
+
+class Game : public engine::Engine
+{
+private:
+	Window * window;
+	Layer * layer;
+	Sprite * sprite;
+	Shader * shader;
+	graphics::Window* m_Window;
+	Timer* m_Timer;
+	unsigned int m_FramesPerSecond, m_UpdatesPerSecond;
+public:
+	Game()
+		:m_FramesPerSecond(0), m_UpdatesPerSecond(0)
+	{
+
+	}
+
+	const unsigned int getFPS() const { return m_FramesPerSecond; }
+	const unsigned int getUPS() const { return m_UpdatesPerSecond; }
+
+	~Game()
+	{
+		delete m_Window;
+		delete m_Timer;
+		delete layer;
+	}
+
+	void start()
+	{
+		init();
+		run();
+	}
+
+	graphics::Window* createWindow(const char *name, int width, int height)
+	{
+		m_Window = new graphics::Window(name, width, height);
+		return m_Window;
+	}
+
+	void init() override
+	{
+		window = createWindow("Test Game", 960, 540);
+#ifdef ENGINE_EMSCRIPTEN		
+		shader = new Shader("res/shaders/basic.es3.vert", "res/shaders/basic.es3.frag");
+#else		
+		shader = new Shader("src/shaders/basic.vert", "src/shaders/basic.frag");
+#endif
+
+		layer = new Layer(new BatchRenderer2D(), shader, maths::mat4::orthographic(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+		//layer->add(new Sprite(0.0f, 0.0f, 4.0f, 4.0f, maths::vec4(0.0f, 1.0f, 0.0f, 1.0f)));
+#ifdef ENGINE_EMSCRIPTEN				
+		sprite = new Sprite(0.0f, 0.0f, 2.0f, 2.0f, maths::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+		//sprite = new Sprite(5.0f, 0.0f, 4.0f, 4.0f, new Texture("res/test.png"));
+#else			
+		sprite = new Sprite(5.0f, 0.0f, 4.0f, 4.0f, maths::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+		//sprite = new Sprite(5.0f, 0.0f, 4.0f, 4.0f, new Texture("test.png"));
+#endif
+		layer->add(sprite);
+	}
+
+	void tick() override
+	{
+		std::cout << getFPS() << " FPS, " << getUPS() << " UPS" << std::endl;
+	}
+
+	void update() override
+	{
+		float speed = 0.2f;
+		if (window->isKeyPressed(GLFW_KEY_UP))
+			sprite->position.y += speed;
+		else if (window->isKeyPressed(GLFW_KEY_DOWN))
+			sprite->position.y -= speed;
+		if (window->isKeyPressed(GLFW_KEY_RIGHT))
+			sprite->position.x += speed;
+		else if (window->isKeyPressed(GLFW_KEY_LEFT))
+			sprite->position.x -= speed;
+
+		double x, y;
+		window->getMousePosition(x, y);
+		shader->setUniform2f("light_pos", maths::vec2((float)(x * 32.0f / window->getWidth() - 16.0f), (float)(9.0f - y * 18.0f / window->getHeight())));
+
+	}
+
+	void run() override
+	{
+		m_Timer = new Timer();
+		float timer = 0.0f;
+		float updateTimer = 0.0f;
+		float updateTick = 1.0f / 60.0f;
+		unsigned int frames = 0;
+		unsigned int updates = 0;
+#ifdef ENGINE_EMSCRIPTEN
+		std::function<void()> mainLoop = [&]() {
+#else
+		while (!m_Window->closed())
+		{
+#endif
+			m_Window->clear();
+			if (m_Timer->elapsed() - updateTimer > updateTick)
+			{
+				update();
+				++updates;
+				updateTimer += updateTick;
+			}
+
+			render();
+			++frames;
+			m_Window->update();
+			if (m_Timer->elapsed() - timer > 1.0f)
+			{
+				timer += 1.0f;
+				m_FramesPerSecond = frames;
+				m_UpdatesPerSecond = updates;
+				frames = 0;
+				updates = 0;
+				tick();
+			}
+#ifdef ENGINE_EMSCRIPTEN
+		};
+		emscripten_set_main_loop_arg(dispatch_main, &mainLoop, 0, 1);
+#else
+		}
+#endif
+	}
+
+	void render() override
+	{
+		layer->render();
+	}
+
+};
+
+int main()
+{
+	Game game;
+	game.start();
+
+	return 0;
+}
+#endif
+
+#if 0
+
 #include <iostream>
 
 #include "window.h"

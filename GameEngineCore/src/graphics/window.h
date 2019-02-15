@@ -1,7 +1,14 @@
 #pragma once
 
 #include <iostream>
-#include <GL/glew.h>
+
+#ifdef ENGINE_EMSCRIPTEN
+	#define GLFW_INCLUDE_ES3
+	#include <FreeImage.h>
+#else
+	#include <GL/glew.h>
+#endif
+
 #include <GLFW/glfw3.h>
 
 namespace engine { namespace graphics {

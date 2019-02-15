@@ -10,13 +10,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Performance1.psess = Performance1.psess
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestGame", "TestGame\TestGame.vcxproj", "{545B3ABD-27E2-4835-B520-8B5D4B39E74D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4E4BCE39-9AAB-403A-9F2D-0686CE0CC97A} = {4E4BCE39-9AAB-403A-9F2D-0686CE0CC97A}
+	EndProjectSection
+EndProject
 Global
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Emscripten|x64 = Emscripten|x64
+		Emscripten|x86 = Emscripten|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
@@ -25,15 +29,34 @@ Global
 		{4E4BCE39-9AAB-403A-9F2D-0686CE0CC97A}.Debug|x64.Build.0 = Debug|x64
 		{4E4BCE39-9AAB-403A-9F2D-0686CE0CC97A}.Debug|x86.ActiveCfg = Debug|Win32
 		{4E4BCE39-9AAB-403A-9F2D-0686CE0CC97A}.Debug|x86.Build.0 = Debug|Win32
+		{4E4BCE39-9AAB-403A-9F2D-0686CE0CC97A}.Emscripten|x64.ActiveCfg = Emscripten|x64
+		{4E4BCE39-9AAB-403A-9F2D-0686CE0CC97A}.Emscripten|x64.Build.0 = Emscripten|x64
+		{4E4BCE39-9AAB-403A-9F2D-0686CE0CC97A}.Emscripten|x86.ActiveCfg = Emscripten|Win32
+		{4E4BCE39-9AAB-403A-9F2D-0686CE0CC97A}.Emscripten|x86.Build.0 = Emscripten|Win32
 		{4E4BCE39-9AAB-403A-9F2D-0686CE0CC97A}.Release|x64.ActiveCfg = Release|x64
 		{4E4BCE39-9AAB-403A-9F2D-0686CE0CC97A}.Release|x64.Build.0 = Release|x64
 		{4E4BCE39-9AAB-403A-9F2D-0686CE0CC97A}.Release|x86.ActiveCfg = Release|Win32
 		{4E4BCE39-9AAB-403A-9F2D-0686CE0CC97A}.Release|x86.Build.0 = Release|Win32
+		{545B3ABD-27E2-4835-B520-8B5D4B39E74D}.Debug|x64.ActiveCfg = Debug|x64
+		{545B3ABD-27E2-4835-B520-8B5D4B39E74D}.Debug|x64.Build.0 = Debug|x64
+		{545B3ABD-27E2-4835-B520-8B5D4B39E74D}.Debug|x86.ActiveCfg = Debug|Win32
+		{545B3ABD-27E2-4835-B520-8B5D4B39E74D}.Debug|x86.Build.0 = Debug|Win32
+		{545B3ABD-27E2-4835-B520-8B5D4B39E74D}.Emscripten|x64.ActiveCfg = Release|x64
+		{545B3ABD-27E2-4835-B520-8B5D4B39E74D}.Emscripten|x64.Build.0 = Release|x64
+		{545B3ABD-27E2-4835-B520-8B5D4B39E74D}.Emscripten|x86.ActiveCfg = Release|Win32
+		{545B3ABD-27E2-4835-B520-8B5D4B39E74D}.Emscripten|x86.Build.0 = Release|Win32
+		{545B3ABD-27E2-4835-B520-8B5D4B39E74D}.Release|x64.ActiveCfg = Release|x64
+		{545B3ABD-27E2-4835-B520-8B5D4B39E74D}.Release|x64.Build.0 = Release|x64
+		{545B3ABD-27E2-4835-B520-8B5D4B39E74D}.Release|x86.ActiveCfg = Release|Win32
+		{545B3ABD-27E2-4835-B520-8B5D4B39E74D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1A990D7E-5D20-4411-A277-20617BA796D6}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal

@@ -1,7 +1,14 @@
 #pragma once
 
 #include <vector>
+
+#ifdef ENGINE_EMSCRIPTEN
+#define GLFW_INCLUDE_ES3
+#include <GLFW/glfw3.h>
+#else
 #include <GL/glew.h>
+#endif
+
 #include "../maths/maths.h"
 
 
@@ -19,6 +26,7 @@ namespace engine {	namespace graphics {
 				m_TransformationBack = &m_TransformationStack.back();
 			}
 		public:
+			virtual	~Renderer2D() {};
 			void push(const maths::mat4& matrix, bool override = false)
 			{
 				if (override)
