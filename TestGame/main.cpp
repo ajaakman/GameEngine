@@ -1,4 +1,5 @@
 #include "../GameEngineCore/src/Engine.h"
+#include <iostream>
 
 using namespace engine;
 using namespace graphics;
@@ -53,6 +54,7 @@ public:
 		run();
 	}
 
+
 	graphics::Window* createWindow(const char *name, int width, int height)
 	{
 		m_Window = new graphics::Window(name, width, height);
@@ -60,8 +62,9 @@ public:
 	}
 
 	void init() override
-	{
+	{		
 		window = createWindow("Test Game", 960, 540);
+		std::cin.get();
 #ifdef ENGINE_EMSCRIPTEN		
 		shader = new Shader("res/shaders/basic.es3.vert", "res/shaders/basic.es3.frag");
 #else		
@@ -69,13 +72,27 @@ public:
 #endif
 
 		layer = new Layer(new BatchRenderer2D(), shader, maths::mat4::orthographic(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
-		//layer->add(new Sprite(0.0f, 0.0f, 4.0f, 4.0f, maths::vec4(1.0f, 0.0f, 0.0f, 1.0f)));
+		layer->add(new Sprite(0.0f, 0.0f, 4.0f, 4.0f, maths::vec4(1.0f, 0.0f, 0.0f, 1.0f)));
 #ifdef ENGINE_EMSCRIPTEN				
-		sprite = new Sprite(0.0f, 0.0f, 2.0f, 2.0f, maths::vec4(1.0f, 0.0f, 0.0f, 1.0f));
-		//sprite = new Sprite(5.0f, 0.0f, 4.0f, 4.0f, new Texture("res/test.png"));
+		//sprite = new Sprite(0.0f, 0.0f, 2.0f, 2.0f, maths::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+		sprite = new Sprite(5.0f, 0.0f, 4.0f, 4.0f, new Texture("res/test8.png"));
+		layer->add(new Sprite(-8.0f,  0.0f, 4.0f, 4.0f, new Texture("res/test1.png")));
+		layer->add(new Sprite( 8.0f,  0.0f, 4.0f, 4.0f, new Texture("res/test2.png")));
+		layer->add(new Sprite(-4.0f, -4.0f, 4.0f, 4.0f, new Texture("res/test3.png")));
+		layer->add(new Sprite(-6.0f,  4.0f, 4.0f, 4.0f, new Texture("res/test4.png")));
+		layer->add(new Sprite(-8.0f,  6.0f, 4.0f, 4.0f, new Texture("res/test5.png")));
+		layer->add(new Sprite(-4.0f, -6.0f, 4.0f, 4.0f, new Texture("res/test6.png")));
+		layer->add(new Sprite(-4.0f,  0.0f, 4.0f, 4.0f, new Texture("res/test7.png")));
 #else			
-		sprite = new Sprite(5.0f, 0.0f, 4.0f, 4.0f, maths::vec4(0.0f, 1.0f, 0.0f, 1.0f));
-		//sprite = new Sprite(5.0f, 0.0f, 4.0f, 4.0f, new Texture("test.png"));
+		layer->add(new Sprite(-8.0f,  0.0f, 4.0f, 4.0f, new Texture("../res/textures/test1.png")));
+		layer->add(new Sprite( 8.0f,  0.0f, 4.0f, 4.0f, new Texture("../res/textures/test2.png")));
+		layer->add(new Sprite(-4.0f, -4.0f, 4.0f, 4.0f, new Texture("../res/textures/test3.png")));
+		layer->add(new Sprite(-6.0f,  4.0f, 4.0f, 4.0f, new Texture("../res/textures/test4.png")));
+		layer->add(new Sprite(-8.0f,  6.0f, 4.0f, 4.0f, new Texture("../res/textures/test5.png")));
+		layer->add(new Sprite(-4.0f, -6.0f, 4.0f, 4.0f, new Texture("../res/textures/test6.png")));
+		layer->add(new Sprite(-4.0f,  0.0f, 4.0f, 4.0f, new Texture("../res/textures/test7.png")));
+		sprite = new Sprite(   5.0f,  0.0f, 4.0f, 4.0f, new Texture("../res/textures/test8.png"));
+		//sprite = new Sprite(5.0f, 0.0f, 4.0f, 4.0f, maths::vec4(0.0f, 1.0f, 0.0f, 1.0f));
 #endif
 		layer->add(sprite);
 	}

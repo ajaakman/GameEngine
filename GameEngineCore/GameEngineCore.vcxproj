@@ -147,7 +147,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\FreeImage\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)GameEngineCore\src\graphics;$(SolutionDir)Dependencies\GLFW\Include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)GameEngineCore\src\graphics;$(SolutionDir)Dependencies\GLFW\Include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -224,6 +224,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Errors.cpp" />
     <ClCompile Include="src\graphics\layers\group.cpp" />
     <ClCompile Include="src\graphics\layers\layer.cpp" />
     <ClCompile Include="src\graphics\layers\tilelayer.cpp" />
@@ -240,9 +241,15 @@
     <ClCompile Include="src\maths\vec2.cpp" />
     <ClCompile Include="src\maths\vec3.cpp" />
     <ClCompile Include="src\maths\vec4.cpp" />
+    <ClCompile Include="src\utils\ImageLoader.cpp" />
+    <ClCompile Include="src\utils\IOManager.cpp" />
+    <ClCompile Include="src\utils\picoPNG.cpp" />
+    <ClCompile Include="src\utils\ResourceManager.cpp" />
+    <ClCompile Include="src\utils\TextureCache.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Engine.h" />
+    <ClInclude Include="src\Errors.h" />
     <ClInclude Include="src\graphics\layers\group.h" />
     <ClInclude Include="src\graphics\layers\layer.h" />
     <ClInclude Include="src\graphics\layers\tilelayer.h" />
@@ -263,7 +270,13 @@
     <ClInclude Include="src\maths\vec3.h" />
     <ClInclude Include="src\maths\vec4.h" />
     <ClInclude Include="src\utils\fileutils.h" />
+    <ClInclude Include="src\utils\GLTexture.h" />
     <ClInclude Include="src\utils\imageload.h" />
+    <ClInclude Include="src\utils\ImageLoader.h" />
+    <ClInclude Include="src\utils\IOManager.h" />
+    <ClInclude Include="src\utils\picoPNG.h" />
+    <ClInclude Include="src\utils\ResourceManager.h" />
+    <ClInclude Include="src\utils\TextureCache.h" />
     <ClInclude Include="src\utils\timer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -271,11 +284,6 @@
     <None Include="src\shaders\basic.es3.vert" />
     <None Include="src\shaders\basic.frag" />
     <None Include="src\shaders\basic.vert" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="ta.png" />
-    <Image Include="tb.png" />
-    <Image Include="test.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

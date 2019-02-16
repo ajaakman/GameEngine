@@ -1,5 +1,6 @@
 #include "window.h"
 #include <iostream>
+#include "../Errors.h"
 
 namespace engine { namespace graphics {
 
@@ -10,10 +11,6 @@ namespace engine { namespace graphics {
 		m_Height = height;
 		if (!init())
 			glfwTerminate();
-
-#ifdef ENGINE_EMSCRIPTEN
-		FreeImage_Initialise();
-#endif
 
 		for (int i = 0; i < MAX_KEYS; i++)
 		{
@@ -62,8 +59,8 @@ namespace engine { namespace graphics {
 			return false;
 		}
 #endif
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		GL(glEnable(GL_BLEND));
+		GL(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
 		std::cout << "OpenGL " << glGetString(GL_VERSION) << std::endl;
 		return true;
@@ -142,7 +139,7 @@ namespace engine { namespace graphics {
 
 	void Window::window_resize(GLFWwindow *window, int width, int height)
 	{
-		glViewport(0, 0, width, height);
+		GL(glViewport(0, 0, width, height));
 		Window* win = (Window*)glfwGetWindowUserPointer(window);
 		win->m_Width = width;
 		win->m_Height = height;

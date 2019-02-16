@@ -1,8 +1,11 @@
 #include "BatchRenderer2D.h"
+#include "../Errors.h"
+
 
 namespace engine { namespace graphics {
 
 	BatchRenderer2D::BatchRenderer2D()
+		:m_IndexCount(0)
 	{
 		init();
 	}
@@ -10,29 +13,29 @@ namespace engine { namespace graphics {
 	BatchRenderer2D::~BatchRenderer2D()
 	{
 		delete m_IBO;
-		glDeleteBuffers(1, &m_VBO);
+		GL(glDeleteBuffers(1, &m_VBO));
 	}
 
 	void BatchRenderer2D::init()
 	{
-		glGenVertexArrays(1, &m_VAO);
-		glGenBuffers(1, &m_VBO);
+		GL(glGenVertexArrays(1, &m_VAO));
+		GL(glGenBuffers(1, &m_VBO));
 
-		glBindVertexArray(m_VAO);
-		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-		glBufferData(GL_ARRAY_BUFFER, RENDERER_BUFFER_SIZE, NULL, GL_DYNAMIC_DRAW);
+		GL(glBindVertexArray(m_VAO));
+		GL(glBindBuffer(GL_ARRAY_BUFFER, m_VBO));
+		GL(glBufferData(GL_ARRAY_BUFFER, RENDERER_BUFFER_SIZE, NULL, GL_DYNAMIC_DRAW));
 
-		glEnableVertexAttribArray(SHADER_VERTEX_INDEX);
-		glEnableVertexAttribArray(SHADER_UV_INDEX);
-		glEnableVertexAttribArray(SHADER_TID_INDEX);
-		glEnableVertexAttribArray(SHADER_COLOR_INDEX);
+		GL(glEnableVertexAttribArray(SHADER_VERTEX_INDEX));
+		GL(glEnableVertexAttribArray(SHADER_UV_INDEX));
+		GL(glEnableVertexAttribArray(SHADER_TID_INDEX));
+		GL(glEnableVertexAttribArray(SHADER_COLOR_INDEX));
 
-		glVertexAttribPointer(SHADER_VERTEX_INDEX, 3, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)0);
-		glVertexAttribPointer(SHADER_UV_INDEX, 2, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, uv)));
-		glVertexAttribPointer(SHADER_TID_INDEX, 1, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, tid)));
-		glVertexAttribPointer(SHADER_COLOR_INDEX, 4, GL_UNSIGNED_BYTE, GL_TRUE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, color)));
+		GL(glVertexAttribPointer(SHADER_VERTEX_INDEX, 3, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)0));
+		GL(glVertexAttribPointer(SHADER_UV_INDEX, 2, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, uv))));
+		GL(glVertexAttribPointer(SHADER_TID_INDEX, 1, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, tid))));
+		GL(glVertexAttribPointer(SHADER_COLOR_INDEX, 4, GL_UNSIGNED_BYTE, GL_TRUE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, color))));
 
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		GL(glBindBuffer(GL_ARRAY_BUFFER, 0));
 
 		GLuint* indices = new GLuint[RENDERER_INDICES_SIZE];
 
@@ -52,7 +55,7 @@ namespace engine { namespace graphics {
 
 		m_IBO = new IndexBuffer(indices, RENDERER_INDICES_SIZE);
 
-		glBindVertexArray(0);
+		GL(glBindVertexArray(0));
 
 #ifdef ENGINE_EMSCRIPTEN
 		m_BufferBase = new VertexData[RENDERER_MAX_SPRITES * 4];
@@ -61,11 +64,11 @@ namespace engine { namespace graphics {
 
 	void BatchRenderer2D::begin()
 	{
-		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+		GL(glBindBuffer(GL_ARRAY_BUFFER, m_VBO));
 #ifdef ENGINE_EMSCRIPTEN
 		m_Buffer = m_BufferBase;
 #else
-		m_Buffer = (VertexData*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+		GL(m_Buffer = (VertexData*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
 #endif
 	}
 
@@ -144,30 +147,30 @@ namespace engine { namespace graphics {
 	void BatchRenderer2D::end()
 	{
 #ifdef ENGINE_EMSCRIPTEN
-		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, (m_Buffer - m_BufferBase) * RENDERER_VERTEX_SIZE, m_BufferBase);
+		GL(glBindBuffer(GL_ARRAY_BUFFER, m_VBO));
+		GL(glBufferSubData(GL_ARRAY_BUFFER, 0, (m_Buffer - m_BufferBase) * RENDERER_VERTEX_SIZE, m_BufferBase));
 		m_Buffer = m_BufferBase;
 #else
-		glUnmapBuffer(GL_ARRAY_BUFFER);
+		GL(glUnmapBuffer(GL_ARRAY_BUFFER));
 #endif
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		GL(glBindBuffer(GL_ARRAY_BUFFER, 0));
 	}
 
 	void BatchRenderer2D::flush()
 	{
 		for (int i = 0; i < m_TextureSlots.size(); ++i)
 		{
-			glActiveTexture(GL_TEXTURE0 + i);
-			glBindTexture(GL_TEXTURE_2D, m_TextureSlots[i]);
+			GL(glActiveTexture(GL_TEXTURE0 + i));
+			GL(glBindTexture(GL_TEXTURE_2D, m_TextureSlots[i]));
 		}
 
-		glBindVertexArray(m_VAO);
+		GL(glBindVertexArray(m_VAO));
 		m_IBO->bind();
 
-		glDrawElements(GL_TRIANGLES, m_IndexCount, GL_UNSIGNED_INT, NULL);
+		GL(glDrawElements(GL_TRIANGLES, m_IndexCount, GL_UNSIGNED_INT, NULL));
 
 		m_IBO->unbind();
-		glBindVertexArray(0);
+		GL(glBindVertexArray(0));
 
 		m_IndexCount = 0;
 		m_TextureSlots.clear();

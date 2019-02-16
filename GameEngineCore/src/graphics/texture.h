@@ -1,6 +1,5 @@
 #pragma once
 
-#include <FreeImage.h>
 #include <string>
 
 #ifdef ENGINE_EMSCRIPTEN
@@ -26,6 +25,7 @@ namespace engine { namespace graphics {
 		~Texture();
 		void bind() const;
 		void unbind() const;
+		//GLTexture LoadPNG(std::string filePath);
 
 		inline const unsigned int getID() const { return m_TID; }
 		inline const unsigned int getWidth() const { return m_Width; }
